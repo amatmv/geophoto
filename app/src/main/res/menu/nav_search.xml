@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+<item
+    android:id="@+id/people"
+    android:icon="@drawable/profilenavigation"
+    android:title="People"/>
+
+<item
+    android:id="@+id/tags"
+    android:icon="@drawable/search"
+    android:title="Posts"/>
+
+</menu>

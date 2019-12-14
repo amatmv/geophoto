@@ -1,0 +1,87 @@
+FORMAT: 1A
+HOST: http://example.com/
+
+# Exemple PDS
+
+Polls is a simple API allowing consumers to view polls and vote in them.
+
+## Tasks Collection [/users/check]
+### List All Tasks [GET]
+
++ Response 501 (application/json)
+
+        "hola"
+
+## Tasks Collection [/tasks]
+
+### List All Tasks [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1,
+                "dateCreated": "2018-01-01T00:00:00",
+                "dateLimit": "2018-03-01T00:00:00",
+                "completed": false,
+                "text": "Una tasca"
+            },
+            {
+                "id": 2,
+                "dateCreated": "2017-01-01T00:00:00",
+                "dateLimit": "2018-06-01T00:00:00",
+                "completed": false,
+                "text": "Una altre tasca"
+            }
+        ]
+
+### Create a New Task [POST]
+
+You may create your own question using this action. It takes a JSON
+object containing a question and a collection of answers in the
+form of choices.
+
++ Request (application/json)
+
+        {
+            "text": "Una tasca",
+            "dateCreated": "2018-01-01T00:00:00",
+            "dateLimit": "2018-03-01T00:00:00"
+        }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "id": 1,
+                "dateCreated": "2018-01-01T00:00:00",
+                "dateLimit": "2018-03-01T00:00:00",
+                "completed": false,
+                "text": "Una tasca"
+            }
+
+## Task [/tasks/1]
+
+### Get Task [GET]
+
++ Response 200 (application/json)
+
+        {
+            "id": 1,
+        "dateCreated": "2018-01-01T00:00:00",
+        "dateLimit": "2018-03-01T00:00:00",
+        "completed": false,
+        "text": "Una tasca"
+        }
+        
+## Task [/tasks/3]
+
+### Get Task [GET]
+
++ Response 500 (application/json)
+
+        {
+            "type": "EJB error",
+            "message": "Task does not exists"
+        }

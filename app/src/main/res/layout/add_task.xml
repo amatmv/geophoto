@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:measureWithLargestChild="false">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:padding="2dp"
+        android:showDividers="beginning|middle|end">
+
+        <TextView
+            android:id="@+id/at_tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/date_limit"
+            android:layout_gravity="left|center_vertical"
+            android:layout_margin="3dp"/>
+        <TextView
+            android:id="@+id/at_date_limit"
+            android:textIsSelectable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center|center_vertical"
+            android:layout_weight="0.4"
+            android:layout_margin="3dp"
+            android:background="#e2e8ff"
+            android:inputType="date"
+            android:gravity="center|center_vertical"/>
+        <Button
+            android:id="@+id/at_date_limit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_set"
+            android:layout_gravity="right|center_vertical"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:padding="2dp"
+        android:showDividers="beginning|middle|end">
+
+        <TextView
+            android:id="@+id/at_tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/time_limit"
+            android:layout_gravity="left|center_vertical"
+            android:layout_margin="3dp"/>
+        <TextView
+            android:id="@+id/at_time_limit"
+            android:textIsSelectable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center|center_vertical"
+            android:layout_weight="0.4"
+            android:layout_margin="3dp"
+            android:background="#e2e8ff"
+            android:inputType="time"
+            android:gravity="center|center_vertical"/>
+        <Button
+            android:id="@+id/at_time_limit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_set"
+            android:layout_gravity="right|center_vertical"
+            />
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:id="@+id/at_text"
+        android:layout_gravity="top"
+        android:inputType="textMultiLine"
+        android:gravity="top"
+        android:layout_weight="0.7"
+        android:background="#e2e8ff"
+        android:layout_margin="3dp"
+        android:padding="3dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_save"
+        android:id="@+id/at_save_button"
+        android:layout_gravity="left"
+        />
+</LinearLayout>
