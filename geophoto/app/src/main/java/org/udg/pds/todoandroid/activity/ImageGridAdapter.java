@@ -15,33 +15,41 @@ import java.util.List;
 public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.GridItemViewHolder> {
 
     private List<String> imageList;
-
+    private OnNoteListener mOnNoteListener;
     private Context c;
 
-    public class GridItemViewHolder extends RecyclerView.ViewHolder {
+    public class GridItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         SquareImageView siv;
+        OnNoteListener onNoteListener;
 
-        public GridItemViewHolder(View view) {
+        public GridItemViewHolder(View view, OnNoteListener onNoteListener) {
             super(view);
             siv = view.findViewById(R.id.siv);
+            this.onNoteListener=onNoteListener;
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onNoteListener.onNoteClick(getAdapterPosition());
         }
     }
 
-    public ImageGridAdapter(Context c, List imageList) {
+    public ImageGridAdapter(Context c, List imageList, OnNoteListener onNoteListener) {
         this.c = c;
         this.imageList = imageList;
+        this.mOnNoteListener=onNoteListener;
     }
 
     @Override
     public GridItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_grid_adapter, parent, false);
-        return new GridItemViewHolder(itemView);
+        return new GridItemViewHolder(itemView,mOnNoteListener);
     }
 
     @Override
     public void onBindViewHolder(GridItemViewHolder holder, int position) {
         final String path = imageList.get(position);
-
         Picasso.get()
                 .load(path)
                 .resize(250, 250)
@@ -50,14 +58,19 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
         holder.siv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //handle click event on image
+                mOnNoteListener.onNoteClick(position);
             }
         });
     }
 
+
     @Override
     public int getItemCount() {
         return imageList.size();
+    }
+
+    public interface OnNoteListener{
+        void onNoteClick(int position);
     }
 
 }
