@@ -40,7 +40,7 @@ public class Login extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-     //   setTheme(Global.theme);
+        setTheme(Global.theme);
         setContentView(R.layout.login);
         mTodoService = ((TodoApp)this.getApplication()).getAPI();
         Button b = (Button)findViewById(R.id.login_button);

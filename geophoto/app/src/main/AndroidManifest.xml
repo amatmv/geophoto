@@ -18,6 +18,9 @@
             android:name=".activity.Register"
             android:label="@string/app_name" />
         <activity
+            android:name=".activity.NavigationMenu"
+            android:label="@string/app_name" />
+        <activity
             android:name=".activity.SplashScreen"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_splash_screen"
