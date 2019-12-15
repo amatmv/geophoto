@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?colorAccent"
+    android:fitsSystemWindows="true">
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:paddingTop="56dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <ImageView android:src="@drawable/logoprincipal"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_marginBottom="24dp"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Escull la funció que vols realitzar"
+            android:textSize="40sp"
+            android:shadowColor="@color/PrimaryLight"
+            android:shadowRadius="2"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/f_properes_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="24dp"
+            android:padding="12dp"
+            android:background="?colorPrimaryDark"
+            android:textColor="@color/white"
+            android:text="Fotos properes"/>
+
+
+
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/upload_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:padding="12dp"
+            android:background="?colorPrimaryDark"
+            android:textColor="@color/white"
+            android:text="Penjar foto"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/territory_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:padding="12dp"
+            android:background="?colorPrimaryDark"
+            android:textColor="@color/white"
+            android:text="Fotos per territori"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/myphotos_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:padding="12dp"
+            android:background="?colorPrimaryDark"
+            android:textColor="@color/white"
+            android:text="Les meves fotos"/>
+
+    </LinearLayout>
+</ScrollView>

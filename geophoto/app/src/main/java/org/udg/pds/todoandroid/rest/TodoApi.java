@@ -15,9 +15,7 @@ import retrofit2.http.Path;
 
 import java.util.List;
 
-/**
- * Created by imartin on 13/02/17.
- */
+
 public interface TodoApi {
   @POST("/users/login")
   Call<User> login(@Body UserLogin login);
