@@ -1,5 +1,6 @@
 package org.udg.pds.todoandroid.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -17,13 +18,16 @@ import java.util.List;
 public class ImageFullScreen extends AppCompatActivity {
 
     TodoApi mTodoService;
-
+    String imatge;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(Global.theme);
         mTodoService = ((TodoApp) this.getApplication()).getAPI();
         setContentView(R.layout.show_images);
+        Intent i = getIntent();
+        imatge = (String) i.getSerializableExtra("fotogran");
+        /*
         RecyclerView rv = findViewById(R.id.rv);
 
         StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -48,5 +52,7 @@ public class ImageFullScreen extends AppCompatActivity {
 
         ImageGridAdapter iga = new ImageGridAdapter(ImageFullScreen.this, imageList);
         rv.setAdapter(iga);
+        */
+
     }
 }

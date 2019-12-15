@@ -17,7 +17,7 @@ import android.widget.Toast;
 import org.udg.pds.todoandroid.R;
 import org.udg.pds.todoandroid.TodoApp;
 import org.udg.pds.todoandroid.entity.User;
-import org.udg.pds.todoandroid.entity.UserLogin;
+import org.udg.pds.todoandroid.activity.ImageGridAdapter;
 import org.udg.pds.todoandroid.rest.TodoApi;
 import org.udg.pds.todoandroid.util.Global;
 
@@ -29,10 +29,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class ShowImages extends AppCompatActivity {
+public class ShowImages extends AppCompatActivity implements ImageGridAdapter.OnNoteListener {
 
     TodoApi mTodoService;
-
+    private List<String> imageList;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,10 +41,10 @@ public class ShowImages extends AppCompatActivity {
         setContentView(R.layout.show_images);
         RecyclerView rv = findViewById(R.id.rv);
 
-        StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         rv.setLayoutManager(sglm);
 
-        List<String> imageList = new ArrayList<>();
+        imageList = new ArrayList<>();
         imageList.add("https://farm5.staticflickr.com/4403/36538794702_83fd8b63b7_c.jpg");
         imageList.add("https://farm5.staticflickr.com/4354/35684440714_434610d1d6_c.jpg");
         imageList.add("https://farm5.staticflickr.com/4301/35690634410_f5d0e312cb_c.jpg");
@@ -62,7 +62,19 @@ public class ShowImages extends AppCompatActivity {
         imageList.add("https://farm1.staticflickr.com/892/42078661914_b940d96992_c.jpg");
         imageList.add("https://i.pinimg.com/736x/01/4a/0c/014a0c0b33b8816332ab920c51cfd8cf.jpg");
 
-        ImageGridAdapter iga = new ImageGridAdapter(ShowImages.this, imageList);
+        ImageGridAdapter iga = new ImageGridAdapter(ShowImages.this, imageList,this);
         rv.setAdapter(iga);
+    }
+
+    @Override
+    public void onNoteClick(int position) {
+        String imatgeGran;
+        imatgeGran=imageList.get(position);
+        Toast toast = Toast.makeText(ShowImages.this, imatgeGran, Toast.LENGTH_SHORT);
+        toast.show();
+        Intent intent=new Intent(this,Login.class);
+        intent.putExtra("fotogran",imatgeGran);
+        startActivity(intent);
+
     }
 }
