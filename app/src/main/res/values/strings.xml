@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Postter</string>
+    <string name="app_name">TODO Android</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -22,19 +22,7 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="title_activity_splash_screen">Postter</string>
-    <string name="splash_content">Postter</string>
-
-
-    <string name="post_from_profile">Post</string>
-    <string name="cross">X</string>
-
-    <string-array name="colorsApp">
-        <item></item>
-        <item>Purple</item>
-        <item>Red</item>
-        <item>Green</item>
-        <item>Blue</item>
-    </string-array>
+    <string name="title_activity_splash_screen">TODO</string>
+    <string name="splash_content">TODO</string>
 
 </resources>

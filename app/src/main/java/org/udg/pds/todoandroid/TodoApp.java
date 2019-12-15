@@ -1,8 +1,6 @@
 package org.udg.pds.todoandroid;
 
 import android.app.Application;
-import android.content.Context;
-
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
@@ -22,11 +20,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class TodoApp extends Application {
 
   TodoApi mTodoService;
-  private static Context appContext;
+
   @Override
   public void onCreate() {
     super.onCreate();
-    appContext = getApplicationContext();
+
     HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
     interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -45,11 +43,8 @@ public class TodoApp extends Application {
 
     Retrofit retrofit = new Retrofit.Builder()
             .client(httpClient)
-            .baseUrl(Global.BASE_URL_CLOUD)
-//            .baseUrl(Global.BASE_URL_PORTFORWARDING)
-//            .baseUrl(Global.BASE_URL_GENYMOTION)
-//            .baseUrl(Global.BASE_URL_APIARY)
-//            .baseUrl(Global.BASE_URL_TESTSERVER)
+            .baseUrl(Global.BASE_URL_PORTFORWARDING)
+            //.baseUrl(Global.BASE_URL_GENYMOTION)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build();
 
@@ -58,9 +53,5 @@ public class TodoApp extends Application {
 
   public TodoApi getAPI() {
     return mTodoService;
-  }
-
-  public static Context getAppContext() {
-    return appContext;
   }
 }

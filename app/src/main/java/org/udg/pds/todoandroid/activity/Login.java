@@ -17,17 +17,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 
-import org.udg.pds.todoandroid.MyFirebaseMessagingService;
+
 import org.udg.pds.todoandroid.R;
 import org.udg.pds.todoandroid.TodoApp;
-import org.udg.pds.todoandroid.entity.GenericResponse;
 import org.udg.pds.todoandroid.entity.IdObject;
-import org.udg.pds.todoandroid.entity.TokenRegister;
 import org.udg.pds.todoandroid.entity.User;
 import org.udg.pds.todoandroid.entity.UserLogin;
 import org.udg.pds.todoandroid.rest.TodoApi;
@@ -46,7 +40,8 @@ public class Login extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(Global.theme);setContentView(R.layout.login);
+     //   setTheme(Global.theme);
+        setContentView(R.layout.login);
         mTodoService = ((TodoApp)this.getApplication()).getAPI();
         Button b = (Button)findViewById(R.id.login_button);
 
@@ -100,52 +95,8 @@ public class Login extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
 
-                    String TAG= "Postter Tag";
-                    FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                            if (!task.isSuccessful()) {
-                                Log.w(TAG, "getInstanceId failed", task.getException());
-                                return;
-                            }
-
-                            // Get new Instance ID token
-                            String token = task.getResult().getToken();
-
-                            //Registrem token
-                            TokenRegister t= new TokenRegister();
-                            t.firebaseToken=token;
-                            Call<GenericResponse> call = mTodoService.registrarToken(t);
-                            call.enqueue(new Callback<GenericResponse>() {
-                                @Override
-                                public void onResponse(Call<GenericResponse> call, Response<GenericResponse> response) {
-
-                                    if (response.isSuccessful()) {
-                                        Toast toast = Toast.makeText(TodoApp.getAppContext(), "Token registrat", Toast.LENGTH_SHORT);
-                                        toast.show();
-                                    } /*else {
-                                        Toast toast = Toast.makeText(TodoApp.getAppContext(), "Token no registrat", Toast.LENGTH_SHORT);
-                                        toast.show();
-                                    }*/
-
-
-                                }
-
-                                @Override
-                                public void onFailure(Call<GenericResponse> call, Throwable t) {
-                                    Toast toast = Toast.makeText(TodoApp.getAppContext(), "Error registering new token", Toast.LENGTH_SHORT);
-                                    toast.show();
-                                }
-                            });
-
-                            // Log and toast
-                            Log.d(TAG, token);
-                         //   Toast.makeText(Login.this, token, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
                     progress.dismiss();
-                    Login.this.startActivity(new Intent(Login.this, TimeLine.class));
+                    Login.this.startActivity(new Intent(Login.this, Register.class));
                     Login.this.finish();
                 } else {
                     progress.dismiss();

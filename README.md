@@ -1,4 +1,4 @@
-# PosterAndroid
+# TODOAndroid
 An example TODO Android application that consumes a REST API. This applications is meant to use it with the [TODOSpring](https://github.com/neich/TODOSpring) backend. It is a very simple app that uses the following technologies:
 
 - Compiled for Android API 27, minimum API 23

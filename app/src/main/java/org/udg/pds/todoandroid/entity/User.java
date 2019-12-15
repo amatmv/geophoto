@@ -6,8 +6,5 @@ package org.udg.pds.todoandroid.entity;
 public class User {
   public long id;
   public String username;
-  public String fullName;
   public String email;
-  public String biography;
-  public String photo;
 }

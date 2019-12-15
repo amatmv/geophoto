@@ -2,94 +2,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.udg.pds.todoandroid">
 
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="true"/>
-
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.hardware.camera" />
-    <uses-permission android:name="android.hardware.camera.autofocus" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".TodoApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme.PURPLE"
-        android:usesCleartextTraffic="true">
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
-        </provider>
-
-        <!--
-     Set custom default icon. This is used when no icon is set for incoming notification messages.
-     See README(https://goo.gl/l4GJaQ) for more.
-        -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@mipmap/ic_launcher" />
-        <!--
-             Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more.
-        -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/PrimaryLight" />
-
+        android:theme="@style/AppTheme.PURPLE">
         <activity
             android:name=".activity.Login"
-            android:label="@string/app_name" />
+            android:label="@string/app_name">
+        </activity>
         <activity
             android:name=".activity.Register"
             android:label="@string/app_name" />
-        <activity
-            android:name=".activity.Profile"
-            android:label="@string/app_name" />
-        <activity
-            android:name=".activity.OthersProfile"
-            android:label="@string/app_name">
-        </activity>
-        <activity
-            android:name=".activity.TimeLine"
-            android:label="@string/app_name" />
-        <activity
-            android:name=".activity.ConfigAccount"
-            android:label="@string/app_name">
-        </activity>
-        <activity
-            android:name=".activity.ConfigParam"
-            android:label="@string/app_name">
-        </activity>
-        <activity android:name=".activity.NavigationActivity" />
-        <activity
-            android:name=".activity.AddTask"
-            android:label="@string/app_name" />
-        <activity
-            android:name=".activity.AddPost"
-            android:label="@string/app_name" />
-        <activity
-            android:name=".activity.SearchActivity"
-            android:label="@string/app_name"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".activity.SearchActivityTags"
-            android:windowSoftInputMode="adjustPan"
-            android:label="@string/app_name">
-        </activity>
-        <activity
-            android:name=".activity.NavDrawerActivity"
-            android:label="@string/title_activity_nd" />
-        <activity
-            android:name=".activity.CommentsView"
-            android:label="@string/title_activity_nd" />
         <activity
             android:name=".activity.SplashScreen"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -101,20 +28,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.ReadQrCode"
-            android:label="@string/title_activity_nd"
-            android:configChanges="orientation|screenSize|keyboardHidden"/>
-
-        <meta-data
-            android:name="com.google.android.gms.vision.DEPENDENCIES"
-            android:value="barcode"
-            />
-
-        <service
-            android:name=".MyFirebaseMessagingService"
-            android:enabled="true"
-            android:exported="true" />
     </application>
 
 </manifest>
