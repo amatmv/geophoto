@@ -1,0 +1,106 @@
+FORMAT: 1A
+HOST: http://example.com/
+
+# Exemple PDS
+
+This is the API blueprint of the implementation https://github.com/neich/TODOSpring
+
+## Check user [/users/check]
+### Check is user is logged in [GET]
+
++ Response 200 (application/json)
+
+        "ok"
+
+## Login [/users/login]
+### Login [POST]
+
++ Request (application/json)
+
+        {
+            "username": "usuari",
+            "password": "123456"
+        }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "id": 1,
+                "username": "usuari",
+                "email": "jo@hotmail.com"
+            }
+
+## Operations with task collections [/tasks]
+
+### List All Tasks [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1,
+                "dateCreated": "2018-01-01T00:00:00",
+                "dateLimit": "2018-03-01T00:00:00",
+                "completed": false,
+                "text": "Una tasca"
+            },
+            {
+                "id": 2,
+                "dateCreated": "2017-01-01T00:00:00",
+                "dateLimit": "2018-06-01T00:00:00",
+                "completed": false,
+                "text": "Una altre tasca"
+            }
+        ]
+
+### Create a New Task [POST]
+
++ Request (application/json)
+
+        {
+            "text": "Una tasca",
+            "dateCreated": "2018-01-01T00:00:00",
+            "dateLimit": "2018-03-01T00:00:00"
+        }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "id": 1,
+                "dateCreated": "2018-01-01T00:00:00",
+                "dateLimit": "2018-03-01T00:00:00",
+                "completed": false,
+                "text": "Una tasca"
+            }
+
+## Get task with id = 1 [/tasks/1]
+
+### Get task with id = 1 [GET]
+
++ Response 200 (application/json)
+
+        {
+            "id": 1,
+            "dateCreated": "2018-01-01T00:00:00",
+            "dateLimit": "2018-03-01T00:00:00",
+            "completed": false,
+            "text": "Una tasca"
+        }
+        
+
+## Get task with id = 3 ERROR [/tasks/3]
+### Get task with id = 3 ERROR [GET]
+
++ Response 500 (application/json)
+
+        {
+            "timestamp": "2019-02-28T19:17:34.311+0000",
+            "status": 500,
+            "error": "Internal Server Error",
+            "message": "No class org.udg.pds.springtodo.entity.Task entity with id 3 exists!",
+            "path": "/tasks/3"
+        }
