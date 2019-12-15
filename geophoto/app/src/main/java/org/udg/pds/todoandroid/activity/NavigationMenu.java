@@ -1,5 +1,6 @@
 package org.udg.pds.todoandroid.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -30,8 +31,9 @@ public class NavigationMenu extends AppCompatActivity {
 
         fotosProperes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast toast = Toast.makeText(NavigationMenu.this, "Fotos properes coming soon", Toast.LENGTH_SHORT);
-                toast.show();
+                NavigationMenu.this.startActivity(new Intent(NavigationMenu.this, ShowImages.class));
+                //Toast toast = Toast.makeText(NavigationMenu.this, "Fotos properes coming soon", Toast.LENGTH_SHORT);
+                //toast.show();
 
             }
         });

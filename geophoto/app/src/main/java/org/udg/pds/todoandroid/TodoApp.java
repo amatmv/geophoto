@@ -14,9 +14,7 @@ import org.udg.pds.todoandroid.util.Global;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by imartin on 13/02/17.
- */
+
 public class TodoApp extends Application {
 
   TodoApi mTodoService;
@@ -43,7 +41,7 @@ public class TodoApp extends Application {
 
     Retrofit retrofit = new Retrofit.Builder()
             .client(httpClient)
-            .baseUrl(Global.BASE_URL_PORTFORWARDING)
+            .baseUrl(Global.BASE_URL_Apiary)
             //.baseUrl(Global.BASE_URL_GENYMOTION)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build();

@@ -1,15 +1,10 @@
 package org.udg.pds.todoandroid.activity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.inputmethodservice.Keyboard;
-import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -17,11 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-
 import org.udg.pds.todoandroid.R;
 import org.udg.pds.todoandroid.TodoApp;
-import org.udg.pds.todoandroid.entity.IdObject;
 import org.udg.pds.todoandroid.entity.User;
 import org.udg.pds.todoandroid.entity.UserLogin;
 import org.udg.pds.todoandroid.rest.TodoApi;
@@ -33,7 +25,7 @@ import retrofit2.Response;
 
 // This is the Login fragment where the user enters the username and password and
 // then a RESTResponder_RF is called to check the authentication
-public class Login extends AppCompatActivity {
+public class UploadImage extends AppCompatActivity {
 
     TodoApi mTodoService;
 
@@ -48,21 +40,21 @@ public class Login extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 closeKeyboard();
-                EditText u = (EditText) Login.this.findViewById(R.id.login_username);
-                EditText p = (EditText) Login.this.findViewById(R.id.login_password);
+                EditText u = (EditText) UploadImage.this.findViewById(R.id.login_username);
+                EditText p = (EditText) UploadImage.this.findViewById(R.id.login_password);
 
                 if(u.getText().toString().isEmpty())
                 {
-                    Toast toast = Toast.makeText(Login.this, "Introdueix el teu nom d'usuari", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(UploadImage.this, "Introdueix el teu nom d'usuari", Toast.LENGTH_SHORT);
                     toast.show();
                 }
                 else if(p.getText().toString().isEmpty())
                 {
-                    Toast toast = Toast.makeText(Login.this, "Introdueix la teva contrasenya", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(UploadImage.this, "Introdueix la teva contrasenya", Toast.LENGTH_SHORT);
                     toast.show();
                 }
                 else {
-                    Login.this.checkCredentials(u.getText().toString(), p.getText().toString());
+                    UploadImage.this.checkCredentials(u.getText().toString(), p.getText().toString());
                 }
             }
         });
@@ -70,7 +62,7 @@ public class Login extends AppCompatActivity {
         r.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Login.this.startActivity(new Intent(Login.this, Register.class));
+                UploadImage.this.startActivity(new Intent(UploadImage.this, Register.class));
                // Login.this.finish();
             }
         });
@@ -95,11 +87,11 @@ public class Login extends AppCompatActivity {
                 if (response.isSuccessful()) {
 
                     progress.dismiss();
-                    Login.this.startActivity(new Intent(Login.this, NavigationMenu.class));
-                    Login.this.finish();
+                    UploadImage.this.startActivity(new Intent(UploadImage.this, NavigationMenu.class));
+                    UploadImage.this.finish();
                 } else {
                     progress.dismiss();
-                    Toast toast = Toast.makeText(Login.this, "Login failure", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(UploadImage.this, "Login failure", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }
@@ -107,7 +99,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                     progress.dismiss();
-                    Toast toast = Toast.makeText(Login.this, "Error logging in", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(UploadImage.this, "Error logging in", Toast.LENGTH_SHORT);
                     toast.show();
 
             }

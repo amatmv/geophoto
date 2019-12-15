@@ -17,7 +17,7 @@ import java.util.List;
 
 
 public interface TodoApi {
-  @POST("/users/login")
+  @POST("/login")
   Call<User> login(@Body UserLogin login);
 
   @POST("/users/register")

@@ -3,13 +3,21 @@
     package="org.udg.pds.todoandroid">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
 
     <application
+        android:usesCleartextTraffic="true"
         android:name=".TodoApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme.PURPLE">
+
         <activity
             android:name=".activity.Login"
             android:label="@string/app_name">
@@ -18,7 +26,19 @@
             android:name=".activity.Register"
             android:label="@string/app_name" />
         <activity
+            android:name=".activity.UploadImage"
+            android:label="@string/app_name" />
+        <activity
             android:name=".activity.NavigationMenu"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".activity.ImageGridAdapter"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".activity.ShowImages"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".activity.SquareImageView"
             android:label="@string/app_name" />
         <activity
             android:name=".activity.SplashScreen"
