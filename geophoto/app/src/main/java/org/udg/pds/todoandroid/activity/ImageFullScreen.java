@@ -1,35 +1,20 @@
 package org.udg.pds.todoandroid.activity;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.udg.pds.todoandroid.R;
 import org.udg.pds.todoandroid.TodoApp;
-import org.udg.pds.todoandroid.entity.User;
-import org.udg.pds.todoandroid.entity.UserLogin;
 import org.udg.pds.todoandroid.rest.TodoApi;
 import org.udg.pds.todoandroid.util.Global;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-
-public class ShowImages extends AppCompatActivity {
+public class ImageFullScreen extends AppCompatActivity {
 
     TodoApi mTodoService;
 
@@ -60,9 +45,8 @@ public class ShowImages extends AppCompatActivity {
         imageList.add("https://farm2.staticflickr.com/1829/27971893037_1858467f9a_c.jpg");
         imageList.add("https://farm2.staticflickr.com/1793/42937679651_3094ebb2b9_c.jpg");
         imageList.add("https://farm1.staticflickr.com/892/42078661914_b940d96992_c.jpg");
-        imageList.add("https://i.pinimg.com/736x/01/4a/0c/014a0c0b33b8816332ab920c51cfd8cf.jpg");
 
-        ImageGridAdapter iga = new ImageGridAdapter(ShowImages.this, imageList);
+        ImageGridAdapter iga = new ImageGridAdapter(ImageFullScreen.this, imageList);
         rv.setAdapter(iga);
     }
 }

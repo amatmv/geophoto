@@ -35,7 +35,6 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Grid
     @Override
     public GridItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_grid_adapter, parent, false);
-
         return new GridItemViewHolder(itemView);
     }
 
