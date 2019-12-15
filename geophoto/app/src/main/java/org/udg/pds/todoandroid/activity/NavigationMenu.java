@@ -1,6 +1,9 @@
 package org.udg.pds.todoandroid.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -29,9 +32,18 @@ public class NavigationMenu extends AppCompatActivity {
         Button buscarPerTerritori = (Button) findViewById(R.id.territory_button);
         Button lesMevesFotos = (Button) findViewById(R.id.myphotos_button);
 
+        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
+
+
+
         fotosProperes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 NavigationMenu.this.startActivity(new Intent(NavigationMenu.this, ShowImages.class));
+                Toast toast = Toast.makeText(NavigationMenu.this, "longitud " + longitude + " latitud " + latitude, Toast.LENGTH_SHORT);
+                toast.show();
                 //Toast toast = Toast.makeText(NavigationMenu.this, "Fotos properes coming soon", Toast.LENGTH_SHORT);
                 //toast.show();
 
@@ -61,6 +73,8 @@ public class NavigationMenu extends AppCompatActivity {
 
             }
         });
+
+
 
     }
 }
