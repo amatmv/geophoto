@@ -3,6 +3,7 @@ package org.udg.pds.todoandroid.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -41,7 +42,7 @@ public class ShowImages extends AppCompatActivity implements ImageGridAdapter.On
         setContentView(R.layout.show_images);
         RecyclerView rv = findViewById(R.id.rv);
 
-        StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         rv.setLayoutManager(sglm);
 
         imageList = new ArrayList<>();
@@ -70,9 +71,7 @@ public class ShowImages extends AppCompatActivity implements ImageGridAdapter.On
     public void onNoteClick(int position) {
         String imatgeGran;
         imatgeGran=imageList.get(position);
-        Toast toast = Toast.makeText(ShowImages.this, imatgeGran, Toast.LENGTH_SHORT);
-        toast.show();
-        Intent intent=new Intent(this,Login.class);
+        Intent intent=new Intent(this, ImageFullScreen.class);
         intent.putExtra("fotogran",imatgeGran);
         startActivity(intent);
 
