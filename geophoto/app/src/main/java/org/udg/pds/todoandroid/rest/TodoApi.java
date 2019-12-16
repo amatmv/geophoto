@@ -18,6 +18,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,7 +34,7 @@ public interface TodoApi {
   Call<User> uploadPhoto(@Header ("Authorization") String token, @Body callUploadPhoto callUploadPhoto);
 
   @POST("geophoto_api/search_around/")
-  Call<searchAroundAnswer> searchAround(@Header ("Authorization") String token, @Body longLat longLat);
+  Call<ArrayList<searchAroundAnswer>> searchAround(@Header ("Authorization") String token, @Body longLat longLat);
 
   @GET("/users/check")
   Call<String> check();

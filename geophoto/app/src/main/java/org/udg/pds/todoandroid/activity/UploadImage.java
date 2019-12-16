@@ -143,7 +143,7 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
                 //Getting the Bitmap from Gallery
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
                  byteArray = byteArrayOutputStream.toByteArray();
                   str_image= Base64.encodeToString(byteArray, Base64.DEFAULT);
                 //Setting the Bitmap to ImageView
