@@ -37,6 +37,6 @@ public class Global {
     public static final String BASE_URL_PORTFORWARDING = "http://localhost:8080";
     public static final String BASE_URL_GENYMOTION = "http://10.0.3.2:8080";
     public static final String BASE_URL_Apiary = "http://private-1da9e-geophoto.apiary-mock.com";
-
+    public static final String Server = "http://192.168.43.161:8000";
 
 }

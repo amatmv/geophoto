@@ -41,7 +41,7 @@ public class TodoApp extends Application {
 
     Retrofit retrofit = new Retrofit.Builder()
             .client(httpClient)
-            .baseUrl(Global.BASE_URL_Apiary)
+            .baseUrl(Global.Server)
             //.baseUrl(Global.BASE_URL_GENYMOTION)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build();

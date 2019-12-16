@@ -96,10 +96,10 @@ public class Login extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     progress.dismiss();
                    // response.body().id;
-                    Toast toast = Toast.makeText(Login.this,""+response.body().id , Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(Login.this,response.body().token , Toast.LENGTH_SHORT);
                     toast.show();
                     Intent intent=new Intent(Login.this, NavigationMenu.class);
-                    intent.putExtra("token",response.body().id);
+                    intent.putExtra("token",response.body().token);
                     startActivity(intent);
                     Login.this.finish();
 

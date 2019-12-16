@@ -20,15 +20,15 @@ import java.util.List;
 
 
 public interface TodoApi {
-  @POST("/login")
+  @POST("/login/")
   Call<User> login(@Body UserLogin login);
 
-  @POST("/users/register")
+  @POST("/register/")
   Call<RegisterAnswer> register(@Body UserRegister register);
 
 
-  @POST("/photo")
-  Call<User> uploadPhoto(@Header ("Dynamic-Header") String token, @Body callUploadPhoto callUploadPhoto);
+  @POST("geophoto_api/photos/")
+  Call<User> uploadPhoto(@Header ("Authorization") String token, @Body callUploadPhoto callUploadPhoto);
 
   @GET("/users/check")
   Call<String> check();

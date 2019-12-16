@@ -43,10 +43,12 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
     private Button buttonUpload;
     TodoApi mTodoService;
     private ImageView imageView;
-
+    String token;
     private EditText editTextName;
-
+    ByteArrayOutputStream byteArrayOutputStream;
+    byte[] byteArray;
     private Bitmap bitmap;
+    String str_image;
 
     private int PICK_IMAGE_REQUEST = 1;
 
@@ -60,6 +62,14 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upload_image);
         mTodoService = ((TodoApp)this.getApplication()).getAPI();
+
+        Intent i = getIntent();
+        token = (String) i.getSerializableExtra("token");
+
+        Toast toast = Toast.makeText(UploadImage.this, token, Toast.LENGTH_SHORT);
+        toast.show();
+
+
         buttonChoose = (Button) findViewById(R.id.buttonChoose);
         buttonUpload = (Button) findViewById(R.id.buttonUpload);
 
@@ -85,10 +95,10 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
         String image = getStringImage(bitmap);
 
         callUploadPhoto c = new callUploadPhoto();
-        c.photo=image;
+        c.photo=str_image;
         c.title=name;
 
-        Call<User> call = mTodoService.uploadPhoto("1234",c);
+        Call<User> call = mTodoService.uploadPhoto("Bearer "+token,c);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -132,6 +142,10 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
             try {
                 //Getting the Bitmap from Gallery
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                 byteArray = byteArrayOutputStream.toByteArray();
+                  str_image= Base64.encodeToString(byteArray, Base64.DEFAULT);
                 //Setting the Bitmap to ImageView
                 imageView.setImageBitmap(bitmap);
             } catch (IOException e) {
