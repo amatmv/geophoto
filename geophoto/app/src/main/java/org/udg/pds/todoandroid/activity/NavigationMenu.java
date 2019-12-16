@@ -13,8 +13,15 @@ import android.widget.Toast;
 
 import org.udg.pds.todoandroid.R;
 import org.udg.pds.todoandroid.TodoApp;
+import org.udg.pds.todoandroid.entity.User;
+import org.udg.pds.todoandroid.entity.UserLogin;
+import org.udg.pds.todoandroid.entity.longLat;
 import org.udg.pds.todoandroid.rest.TodoApi;
 import org.udg.pds.todoandroid.util.Global;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NavigationMenu extends AppCompatActivity {
 
@@ -50,6 +57,37 @@ public class NavigationMenu extends AppCompatActivity {
                 NavigationMenu.this.startActivity(new Intent(NavigationMenu.this, ShowImages.class));
                 Toast toast = Toast.makeText(NavigationMenu.this, "longitud " + longitude + " latitud " + latitude, Toast.LENGTH_SHORT);
                 toast.show();
+
+
+                longLat l= new UserLogin();
+                l.location_lat=latitude;
+                l.location_lon=longitude;
+                l.distance=5;
+                Call<User> call = mTodoService.login(ul);
+                call.enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+
+                        if (response.isSuccessful()) {
+                            progress.dismiss();
+                            // response.body().id;
+                            Toast toast = Toast.makeText(Login.this,response.body().token , Toast.LENGTH_SHORT);
+                            toast.show();
+                            Intent intent=new Intent(Login.this, NavigationMenu.class);
+                            intent.putExtra("token",response.body().token);
+                            startActivity(intent);
+                            Login.this.finish();
+
+
+                        } else {
+                            progress.dismiss();
+                            Toast toast = Toast.makeText(Login.this, "Login failure", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                    }
+
+
+
                 //Toast toast = Toast.makeText(NavigationMenu.this, "Fotos properes coming soon", Toast.LENGTH_SHORT);
                 //toast.show();
 
@@ -64,8 +102,6 @@ public class NavigationMenu extends AppCompatActivity {
                 intent.putExtra("token",token);
                 startActivity(intent);
 
-                Toast toast = Toast.makeText(NavigationMenu.this, "Penjar fotos coming soon", Toast.LENGTH_SHORT);
-                toast.show();
 
             }
         });
