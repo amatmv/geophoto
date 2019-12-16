@@ -52,6 +52,7 @@ public class NavigationMenu extends AppCompatActivity {
 
         penjarFoto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                NavigationMenu.this.startActivity(new Intent(NavigationMenu.this, UploadImage.class));
                 Toast toast = Toast.makeText(NavigationMenu.this, "Penjar fotos coming soon", Toast.LENGTH_SHORT);
                 toast.show();
 

@@ -6,10 +6,13 @@ import org.udg.pds.todoandroid.entity.Task;
 import org.udg.pds.todoandroid.entity.User;
 import org.udg.pds.todoandroid.entity.UserLogin;
 import org.udg.pds.todoandroid.entity.UserRegister;
+import org.udg.pds.todoandroid.entity.callUploadPhoto;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -22,6 +25,10 @@ public interface TodoApi {
 
   @POST("/users/register")
   Call<RegisterAnswer> register(@Body UserRegister register);
+
+
+  @POST("/photo")
+  Call<User> uploadPhoto(@Header ("Dynamic-Header") String token, @Body callUploadPhoto callUploadPhoto);
 
   @GET("/users/check")
   Call<String> check();

@@ -1,117 +1,154 @@
 package org.udg.pds.todoandroid.activity;
-
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Base64;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.udg.pds.todoandroid.R;
 import org.udg.pds.todoandroid.TodoApp;
 import org.udg.pds.todoandroid.entity.User;
-import org.udg.pds.todoandroid.entity.UserLogin;
+import org.udg.pds.todoandroid.entity.callUploadPhoto;
 import org.udg.pds.todoandroid.rest.TodoApi;
-import org.udg.pds.todoandroid.util.Global;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Hashtable;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-// This is the Login fragment where the user enters the username and password and
-// then a RESTResponder_RF is called to check the authentication
-public class UploadImage extends AppCompatActivity {
+public class UploadImage extends AppCompatActivity implements View.OnClickListener  {
 
+    private Button buttonChoose;
+    private Button buttonUpload;
     TodoApi mTodoService;
+    private ImageView imageView;
+
+    private EditText editTextName;
+
+    private Bitmap bitmap;
+
+    private int PICK_IMAGE_REQUEST = 1;
+
+    private String UPLOAD_URL ="http://almkhrfich.esy.es/VolleyUpload/upload.php";
+
+    private String KEY_IMAGE = "image";
+    private String KEY_NAME = "name";
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(Global.theme);
-        setContentView(R.layout.login);
+        setContentView(R.layout.upload_image);
         mTodoService = ((TodoApp)this.getApplication()).getAPI();
-        Button b = (Button)findViewById(R.id.login_button);
+        buttonChoose = (Button) findViewById(R.id.buttonChoose);
+        buttonUpload = (Button) findViewById(R.id.buttonUpload);
 
-        b.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                closeKeyboard();
-                EditText u = (EditText) UploadImage.this.findViewById(R.id.login_username);
-                EditText p = (EditText) UploadImage.this.findViewById(R.id.login_password);
+        editTextName = (EditText) findViewById(R.id.editText);
 
-                if(u.getText().toString().isEmpty())
-                {
-                    Toast toast = Toast.makeText(UploadImage.this, "Introdueix el teu nom d'usuari", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-                else if(p.getText().toString().isEmpty())
-                {
-                    Toast toast = Toast.makeText(UploadImage.this, "Introdueix la teva contrasenya", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-                else {
-                    UploadImage.this.checkCredentials(u.getText().toString(), p.getText().toString());
-                }
-            }
-        });
-        TextView r = findViewById(R.id.register_button);
-        r.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        imageView  = (ImageView) findViewById(R.id.imageView);
 
-                UploadImage.this.startActivity(new Intent(UploadImage.this, Register.class));
-               // Login.this.finish();
-            }
-        });
-
+        buttonChoose.setOnClickListener(this);
+        buttonUpload.setOnClickListener(this);
     }
-    // This method is called when the "Login" button is pressed in the Login fragment
-    public void checkCredentials(String username, String password) {
 
+    public String getStringImage(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+    }
 
-        ProgressDialog progress = ProgressDialog.show(this, null,
-                "Authenticating...", true);
+    private void uploadImage(){
 
+        String name = editTextName.getText().toString().trim();
+        String image = getStringImage(bitmap);
 
-        UserLogin ul = new UserLogin();
-        ul.username = username;
-        ul.password = password;
-        Call<User> call = mTodoService.login(ul);
+        callUploadPhoto c = new callUploadPhoto();
+        c.photo=image;
+        c.title=name;
+
+        Call<User> call = mTodoService.uploadPhoto("1234",c);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
 
                 if (response.isSuccessful()) {
 
-                    progress.dismiss();
-                    UploadImage.this.startActivity(new Intent(UploadImage.this, NavigationMenu.class));
                     UploadImage.this.finish();
                 } else {
-                    progress.dismiss();
-                    Toast toast = Toast.makeText(UploadImage.this, "Login failure", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(UploadImage.this, "Upload failure", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }
-
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                    progress.dismiss();
-                    Toast toast = Toast.makeText(UploadImage.this, "Error logging in", Toast.LENGTH_SHORT);
-                    toast.show();
+                Toast toast = Toast.makeText(UploadImage.this, "Connection error", Toast.LENGTH_SHORT);
+                toast.show();
 
             }
+
+        //Creating a Request Queue
+       // RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        //Adding request to the queue
+        //requestQueue.add(stringRequest);
         });
     }
 
-    private void closeKeyboard() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    private void showFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                //Getting the Bitmap from Gallery
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                //Setting the Bitmap to ImageView
+                imageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
+    @Override
+    public void onClick(View v) {
+
+        if(v == buttonChoose){
+            showFileChooser();
+        }
+
+        if(v == buttonUpload){
+            uploadImage();
+        }
+    }
 }

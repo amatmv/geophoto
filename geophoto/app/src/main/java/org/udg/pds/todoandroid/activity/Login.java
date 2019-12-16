@@ -94,10 +94,16 @@ public class Login extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
 
                 if (response.isSuccessful()) {
-
                     progress.dismiss();
-                    Login.this.startActivity(new Intent(Login.this, NavigationMenu.class));
+                   // response.body().id;
+                    Toast toast = Toast.makeText(Login.this,""+response.body().id , Toast.LENGTH_SHORT);
+                    toast.show();
+                    Intent intent=new Intent(Login.this, NavigationMenu.class);
+                    intent.putExtra("token",response.body().id);
+                    startActivity(intent);
                     Login.this.finish();
+
+
                 } else {
                     progress.dismiss();
                     Toast toast = Toast.makeText(Login.this, "Login failure", Toast.LENGTH_SHORT);
