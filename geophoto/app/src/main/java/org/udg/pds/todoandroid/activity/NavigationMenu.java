@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -57,7 +58,7 @@ public class NavigationMenu extends AppCompatActivity {
         double latitude = location.getLatitude();
 
         distance=-1;
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Introdueix la distància (metres) a la que vols buscar fotos");
 // Set up the input
         final EditText input = new EditText(this);
@@ -70,6 +71,40 @@ public class NavigationMenu extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 distance =  Integer.parseInt(input.getText().toString());
+                Toast toast = Toast.makeText(NavigationMenu.this, "longitud " + longitude + " latitud " + latitude, Toast.LENGTH_SHORT);
+                toast.show();
+
+
+                longLat l = new longLat();
+                l.location_lat = latitude;
+                l.location_lon = longitude;
+                l.distance = distance;
+                Call<ArrayList<searchAroundAnswer>> call = mTodoService.searchAround("Bearer "+token, l);
+                call.enqueue(new Callback<ArrayList<searchAroundAnswer>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<searchAroundAnswer>> call, Response<ArrayList<searchAroundAnswer>> response) {
+
+                        if (response.isSuccessful()) {
+
+                            Intent intent = new Intent(NavigationMenu.this, ShowImages.class);
+
+                            intent.putExtra("llistaFotos", response.body());
+                            startActivity(intent);
+
+
+                        } else {
+                            Toast toast = Toast.makeText(NavigationMenu.this, "Login failure", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<searchAroundAnswer>> call, Throwable t) {
+                        Toast toast = Toast.makeText(NavigationMenu.this, "Error logging in", Toast.LENGTH_SHORT);
+                        toast.show();
+
+                    }
+                });
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -79,52 +114,11 @@ public class NavigationMenu extends AppCompatActivity {
             }
         });
 
-        builder.show();
 
+        final AlertDialog alert=builder.create();
         fotosProperes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-
-
-                if(distance!=-1) {
-                    //      NavigationMenu.this.startActivity(new Intent(NavigationMenu.this, ShowImages.class));
-                    Toast toast = Toast.makeText(NavigationMenu.this, "longitud " + longitude + " latitud " + latitude, Toast.LENGTH_SHORT);
-                    toast.show();
-
-
-                    longLat l = new longLat();
-                    l.location_lat = latitude;
-                    l.location_lon = longitude;
-                    l.distance = distance;
-                    Call<ArrayList<searchAroundAnswer>> call = mTodoService.searchAround("Bearer "+token, l);
-                    call.enqueue(new Callback<ArrayList<searchAroundAnswer>>() {
-                        @Override
-                        public void onResponse(Call<ArrayList<searchAroundAnswer>> call, Response<ArrayList<searchAroundAnswer>> response) {
-
-                            if (response.isSuccessful()) {
-
-                                Intent intent = new Intent(NavigationMenu.this, ShowImages.class);
-
-                                intent.putExtra("llistaFotos", response.body());
-                                startActivity(intent);
-
-
-                            } else {
-                                Toast toast = Toast.makeText(NavigationMenu.this, "Login failure", Toast.LENGTH_SHORT);
-                                toast.show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ArrayList<searchAroundAnswer>> call, Throwable t) {
-                            Toast toast = Toast.makeText(NavigationMenu.this, "Error logging in", Toast.LENGTH_SHORT);
-                            toast.show();
-
-                        }
-                    });
-
-                }
-
+                alert.show();
             }
         });
 

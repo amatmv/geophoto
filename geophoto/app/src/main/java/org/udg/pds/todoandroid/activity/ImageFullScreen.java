@@ -7,12 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import org.udg.pds.todoandroid.R;
 import org.udg.pds.todoandroid.TodoApp;
+import org.udg.pds.todoandroid.entity.searchAroundAnswer;
 import org.udg.pds.todoandroid.rest.TodoApi;
 import org.udg.pds.todoandroid.util.Global;
 
@@ -24,6 +26,10 @@ public class ImageFullScreen extends AppCompatActivity {
     ImageView siv;
     TodoApi mTodoService;
     String imatge;
+    searchAroundAnswer dadesCompletes;
+    TextView textView1;
+    TextView textView2;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +40,13 @@ public class ImageFullScreen extends AppCompatActivity {
 
 
         Intent i = getIntent();
-        imatge = (String) i.getSerializableExtra("fotogran");
+        dadesCompletes = (searchAroundAnswer) i.getSerializableExtra("fotogran");
+        imatge=dadesCompletes.thumbnail;
+        textView1=(TextView)findViewById(R.id.textView1);
+        textView1.setText("Autor: "+dadesCompletes.user+"\nTítol: "+dadesCompletes.title+"\n"+dadesCompletes.date_taken+"\n"+dadesCompletes.location_information);
+        //textView2=(TextView)findViewById(R.id.textView2);
+        //textView2.setText("Títol: "+dadesCompletes.title);
+
         Picasso.get()
             .load(imatge)
             .into(siv);
