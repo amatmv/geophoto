@@ -79,10 +79,13 @@ public class NavigationMenu extends AppCompatActivity {
             }
         });
 
+        builder.show();
+
         fotosProperes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                builder.show();
+
+
                 if(distance!=-1) {
                     //      NavigationMenu.this.startActivity(new Intent(NavigationMenu.this, ShowImages.class));
                     Toast toast = Toast.makeText(NavigationMenu.this, "longitud " + longitude + " latitud " + latitude, Toast.LENGTH_SHORT);
@@ -93,7 +96,7 @@ public class NavigationMenu extends AppCompatActivity {
                     l.location_lat = latitude;
                     l.location_lon = longitude;
                     l.distance = distance;
-                    Call<ArrayList<searchAroundAnswer>> call = mTodoService.searchAround("Bearer ", l);
+                    Call<ArrayList<searchAroundAnswer>> call = mTodoService.searchAround("Bearer "+token, l);
                     call.enqueue(new Callback<ArrayList<searchAroundAnswer>>() {
                         @Override
                         public void onResponse(Call<ArrayList<searchAroundAnswer>> call, Response<ArrayList<searchAroundAnswer>> response) {
@@ -119,7 +122,7 @@ public class NavigationMenu extends AppCompatActivity {
 
                         }
                     });
-                    distance=-1;
+
                 }
 
             }
