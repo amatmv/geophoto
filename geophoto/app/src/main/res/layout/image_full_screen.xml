@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:layout_weight="1"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignLeft="@+id/siv"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/siv"
+        android:lines="4"
+        android:scrollHorizontally="false"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearance"
+        android:textColor="@android:color/black"
+        android:textColorLink="@android:color/white"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp" />
 
     <ImageView
         android:id="@+id/siv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:adjustViewBounds="true"/>
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/textView1"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="4dp"
+
+        android:adjustViewBounds="true"
+        />
+
 </RelativeLayout>
-    <!--android:scaleType="fitXY"-->
-    <!--android:scaleType="centerCrop"-->

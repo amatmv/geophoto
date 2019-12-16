@@ -25,8 +25,12 @@ import org.udg.pds.todoandroid.TodoApp;
 import org.udg.pds.todoandroid.entity.IdObject;
 import org.udg.pds.todoandroid.entity.User;
 import org.udg.pds.todoandroid.entity.UserLogin;
+import org.udg.pds.todoandroid.entity.searchAroundAnswer;
 import org.udg.pds.todoandroid.rest.TodoApi;
 import org.udg.pds.todoandroid.util.Global;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -94,10 +98,16 @@ public class Login extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
 
                 if (response.isSuccessful()) {
-
                     progress.dismiss();
-                    Login.this.startActivity(new Intent(Login.this, NavigationMenu.class));
+                   // response.body().id;
+                    Toast toast = Toast.makeText(Login.this,response.body().token , Toast.LENGTH_SHORT);
+                    toast.show();
+                    Intent intent=new Intent(Login.this, NavigationMenu.class);
+                    intent.putExtra("token",response.body().token);
+                    startActivity(intent);
                     Login.this.finish();
+
+
                 } else {
                     progress.dismiss();
                     Toast toast = Toast.makeText(Login.this, "Login failure", Toast.LENGTH_SHORT);

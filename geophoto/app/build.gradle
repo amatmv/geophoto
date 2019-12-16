@@ -61,5 +61,5 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
-
+    implementation 'com.mcxiaoke.volley:library-aar:1.0.0'
 }

@@ -17,11 +17,14 @@ import android.widget.Toast;
 
 import org.udg.pds.todoandroid.R;
 import org.udg.pds.todoandroid.TodoApp;
+import org.udg.pds.todoandroid.entity.RegisterAnswer;
 import org.udg.pds.todoandroid.entity.User;
 import org.udg.pds.todoandroid.activity.ImageGridAdapter;
+import org.udg.pds.todoandroid.entity.searchAroundAnswer;
 import org.udg.pds.todoandroid.rest.TodoApi;
 import org.udg.pds.todoandroid.util.Global;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,18 +37,30 @@ public class ShowImages extends AppCompatActivity implements ImageGridAdapter.On
 
     TodoApi mTodoService;
     private List<String> imageList;
+    private ArrayList<searchAroundAnswer> llistaCompleta;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(Global.theme);
         mTodoService = ((TodoApp) this.getApplication()).getAPI();
         setContentView(R.layout.show_images);
+        Intent i = getIntent();
+        llistaCompleta=new ArrayList<>();
+        llistaCompleta = (ArrayList<searchAroundAnswer>) i.getSerializableExtra("llistaFotos");
+
         RecyclerView rv = findViewById(R.id.rv);
 
-        StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         rv.setLayoutManager(sglm);
 
         imageList = new ArrayList<>();
+       for(searchAroundAnswer s: llistaCompleta)
+       {
+           imageList.add(s.thumbnail);
+       }
+
+
+
         imageList.add("https://farm5.staticflickr.com/4403/36538794702_83fd8b63b7_c.jpg");
         imageList.add("https://farm5.staticflickr.com/4354/35684440714_434610d1d6_c.jpg");
         imageList.add("https://farm5.staticflickr.com/4301/35690634410_f5d0e312cb_c.jpg");
@@ -69,8 +84,13 @@ public class ShowImages extends AppCompatActivity implements ImageGridAdapter.On
 
     @Override
     public void onNoteClick(int position) {
-        String imatgeGran;
+       /*String imatgeGran;
         imatgeGran=imageList.get(position);
+        Intent intent=new Intent(this, ImageFullScreen.class);
+        intent.putExtra("fotogran",imatgeGran);
+        startActivity(intent);*/
+        searchAroundAnswer imatgeGran;
+        imatgeGran=llistaCompleta.get(position);
         Intent intent=new Intent(this, ImageFullScreen.class);
         intent.putExtra("fotogran",imatgeGran);
         startActivity(intent);

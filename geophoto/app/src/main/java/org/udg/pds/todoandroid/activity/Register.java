@@ -102,7 +102,7 @@ public class Register extends AppCompatActivity {
 
         UserRegister ul = new UserRegister();
         ul.username = username;
-        ul.fullName=fullname;
+        ul.full_name=fullname;
         ul.password = password;
         ul.email=email;
         Call<RegisterAnswer> call = mTodoService.register(ul);
