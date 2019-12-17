@@ -106,10 +106,12 @@ public class TerritoriesMenu extends AppCompatActivity {
                                 toast.show();
 
                             }
-                            Intent intent = new Intent(TerritoriesMenu.this, ShowImages.class);
+                            else {
+                                Intent intent = new Intent(TerritoriesMenu.this, ShowImages.class);
 
-                            intent.putExtra("llistaFotos", response.body());
-                            startActivity(intent);
+                                intent.putExtra("llistaFotos", response.body());
+                                startActivity(intent);
+                            }
 
 
                         } else {

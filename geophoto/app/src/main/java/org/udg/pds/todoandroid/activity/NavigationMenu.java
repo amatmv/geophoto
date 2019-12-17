@@ -85,11 +85,17 @@ public class NavigationMenu extends AppCompatActivity {
                     public void onResponse(Call<ArrayList<searchAroundAnswer>> call, Response<ArrayList<searchAroundAnswer>> response) {
 
                         if (response.isSuccessful()) {
+                            if(response.body()==null || response.body().size()==0) {
+                                Toast toast = Toast.makeText(NavigationMenu.this, "No hi ha cap foto al territori entrat", Toast.LENGTH_SHORT);
+                                toast.show();
 
-                            Intent intent = new Intent(NavigationMenu.this, ShowImages.class);
+                            }
+                            else {
+                                Intent intent = new Intent(NavigationMenu.this, ShowImages.class);
 
-                            intent.putExtra("llistaFotos", response.body());
-                            startActivity(intent);
+                                intent.putExtra("llistaFotos", response.body());
+                                startActivity(intent);
+                            }
 
 
                         } else {
