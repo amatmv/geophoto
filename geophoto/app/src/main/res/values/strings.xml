@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TODO Android</string>
+    <string name="app_name">Geophoto</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -22,7 +22,7 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="title_activity_splash_screen">TODO</string>
-    <string name="splash_content">TODO</string>
+    <string name="title_activity_splash_screen">Geophoto</string>
+    <string name="splash_content">Geophoto</string>
 
 </resources>
