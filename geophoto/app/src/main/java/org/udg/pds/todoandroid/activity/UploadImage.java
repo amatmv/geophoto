@@ -99,30 +99,30 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
         c.title=name;
 
         Call<User> call = mTodoService.uploadPhoto("Bearer "+token,c);
+        ProgressDialog progress = ProgressDialog.show(this, null,
+                "Uploading...", true);
+
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
 
                 if (response.isSuccessful()) {
-
+                    progress.dismiss();
                     UploadImage.this.finish();
                 } else {
+                    progress.dismiss();
                     Toast toast = Toast.makeText(UploadImage.this, "Upload failure", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                progress.dismiss();
                 Toast toast = Toast.makeText(UploadImage.this, "Connection error", Toast.LENGTH_SHORT);
                 toast.show();
 
             }
 
-        //Creating a Request Queue
-       // RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        //Adding request to the queue
-        //requestQueue.add(stringRequest);
         });
     }
 
