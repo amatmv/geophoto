@@ -74,9 +74,6 @@ public class NavigationMenu extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 distance =  Integer.parseInt(input.getText().toString());
-                Toast toast = Toast.makeText(NavigationMenu.this, "longitud " + longitude + " latitud " + latitude, Toast.LENGTH_SHORT);
-                toast.show();
-
 
                 longLat l = new longLat();
                 l.location_lat = latitude;
