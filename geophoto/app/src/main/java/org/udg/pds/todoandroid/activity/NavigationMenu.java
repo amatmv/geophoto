@@ -130,8 +130,6 @@ public class NavigationMenu extends AppCompatActivity {
         });
 
 
-        //Toast toast = Toast.makeText(NavigationMenu.this, "Fotos properes coming soon", Toast.LENGTH_SHORT);
-        //toast.show();
 
 
         penjarFoto.setOnClickListener(new View.OnClickListener() {
