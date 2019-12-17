@@ -43,7 +43,7 @@ public class ImageFullScreen extends AppCompatActivity {
         dadesCompletes = (searchAroundAnswer) i.getSerializableExtra("fotogran");
         imatge=dadesCompletes.url;
         textView1=(TextView)findViewById(R.id.textView1);
-        textView1.setText("Autor: "+dadesCompletes.user+"\nTítol: "+dadesCompletes.title+"\n"+dadesCompletes.created_at+
+        textView1.setText("Autor: "+dadesCompletes.user.username+"\nTítol: "+dadesCompletes.title+"\n"+dadesCompletes.created_at+
                 "\n"+dadesCompletes.comarca+", "+dadesCompletes.provincia+", "+dadesCompletes.municipi);
         //textView2=(TextView)findViewById(R.id.textView2);
         //textView2.setText("Títol: "+dadesCompletes.title);
