@@ -6,13 +6,7 @@ import android.content.DialogInterface;
 import android.os.ResultReceiver;
 import org.udg.pds.todoandroid.entity.APIError;
 
-/**
- * Created with IntelliJ IDEA.
- * User: imartin
- * Date: 30/03/13
- * Time: 10:18
- * To change this template use File | Settings | File Templates.
- */
+
 
 // This class contains several static function to show standard dialogs that are used
 // through the application
