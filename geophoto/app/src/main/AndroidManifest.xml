@@ -32,6 +32,9 @@
             android:name=".activity.NavigationMenu"
             android:label="@string/app_name" />
         <activity
+            android:name=".activity.TerritoriesMenu"
+            android:label="@string/app_name" />
+        <activity
             android:name=".activity.ImageGridAdapter"
             android:label="@string/app_name" />
         <activity

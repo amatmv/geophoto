@@ -56,11 +56,11 @@ public class ShowImages extends AppCompatActivity implements ImageGridAdapter.On
         imageList = new ArrayList<>();
        for(searchAroundAnswer s: llistaCompleta)
        {
-           imageList.add(s.thumbnail);
+           imageList.add(s.url);
        }
 
 
-
+/*
         imageList.add("https://farm5.staticflickr.com/4403/36538794702_83fd8b63b7_c.jpg");
         imageList.add("https://farm5.staticflickr.com/4354/35684440714_434610d1d6_c.jpg");
         imageList.add("https://farm5.staticflickr.com/4301/35690634410_f5d0e312cb_c.jpg");
@@ -76,7 +76,7 @@ public class ShowImages extends AppCompatActivity implements ImageGridAdapter.On
         imageList.add("https://farm2.staticflickr.com/1829/27971893037_1858467f9a_c.jpg");
         imageList.add("https://farm2.staticflickr.com/1793/42937679651_3094ebb2b9_c.jpg");
         imageList.add("https://farm1.staticflickr.com/892/42078661914_b940d96992_c.jpg");
-        imageList.add("https://i.pinimg.com/736x/01/4a/0c/014a0c0b33b8816332ab920c51cfd8cf.jpg");
+        imageList.add("https://i.pinimg.com/736x/01/4a/0c/014a0c0b33b8816332ab920c51cfd8cf.jpg");*/
 
         ImageGridAdapter iga = new ImageGridAdapter(ShowImages.this, imageList,this);
         rv.setAdapter(iga);
