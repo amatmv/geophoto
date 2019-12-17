@@ -36,7 +36,8 @@ public class NavigationMenu extends AppCompatActivity {
     TodoApi mTodoService;
     String token;
     int distance;
-
+    double longitude;
+    double latitude;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,8 +55,10 @@ public class NavigationMenu extends AppCompatActivity {
 
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        double longitude = location.getLongitude();
-        double latitude = location.getLatitude();
+        if(location!=null) {
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
+        }
 
         distance=-1;
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -118,7 +121,14 @@ public class NavigationMenu extends AppCompatActivity {
         final AlertDialog alert=builder.create();
         fotosProperes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                alert.show();
+                if(location!=null)
+                    alert.show();
+                else
+                {
+                    Toast toast = Toast.makeText(NavigationMenu.this, "No es reconeix la latitud i longitud on et trobes," +
+                            " aquesta opció queda deshablitada", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
         });
 

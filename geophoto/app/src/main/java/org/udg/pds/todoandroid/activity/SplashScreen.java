@@ -38,27 +38,6 @@ public class SplashScreen extends AppCompatActivity {
         SplashScreen.this.startActivity(new Intent(SplashScreen.this, Login.class));
         SplashScreen.this.finish();
 
-        Call<String> call = todoApi.check();
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-
-                if (response.isSuccessful()) {
-                    SplashScreen.this.startActivity(new Intent(SplashScreen.this, Login.class));
-                    SplashScreen.this.finish();
-                } else {
-                    SplashScreen.this.startActivity(new Intent(SplashScreen.this, Login.class));
-                    SplashScreen.this.finish();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast toast = Toast.makeText(SplashScreen.this, "Error checking login status", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        });
-
 
     }
 }
