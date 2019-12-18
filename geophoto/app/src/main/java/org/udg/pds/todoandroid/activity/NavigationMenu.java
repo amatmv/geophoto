@@ -19,6 +19,7 @@ import org.udg.pds.todoandroid.R;
 import org.udg.pds.todoandroid.TodoApp;
 import org.udg.pds.todoandroid.entity.User;
 import org.udg.pds.todoandroid.entity.UserLogin;
+import org.udg.pds.todoandroid.entity.Usuari;
 import org.udg.pds.todoandroid.entity.longLat;
 import org.udg.pds.todoandroid.entity.searchAroundAnswer;
 import org.udg.pds.todoandroid.rest.TodoApi;
@@ -35,6 +36,7 @@ public class NavigationMenu extends AppCompatActivity {
 
     TodoApi mTodoService;
     String token;
+    String username;
     int distance;
     double longitude;
     double latitude;
@@ -47,7 +49,7 @@ public class NavigationMenu extends AppCompatActivity {
 
         Intent i = getIntent();
         token = (String) i.getSerializableExtra("token");
-
+        username = (String) i.getSerializableExtra("username");
         Button fotosProperes = (Button) findViewById(R.id.f_properes_button);
         Button penjarFoto = (Button) findViewById(R.id.upload_button);
         Button buscarPerTerritori = (Button) findViewById(R.id.territory_button);
@@ -86,7 +88,7 @@ public class NavigationMenu extends AppCompatActivity {
 
                         if (response.isSuccessful()) {
                             if(response.body()==null || response.body().size()==0) {
-                                Toast toast = Toast.makeText(NavigationMenu.this, "No hi ha cap foto al territori entrat", Toast.LENGTH_SHORT);
+                                Toast toast = Toast.makeText(NavigationMenu.this, "No hi ha cap foto en un radi de " + distance +" metres", Toast.LENGTH_SHORT);
                                 toast.show();
 
                             }
@@ -99,7 +101,7 @@ public class NavigationMenu extends AppCompatActivity {
 
 
                         } else {
-                            Toast toast = Toast.makeText(NavigationMenu.this, "Login failure", Toast.LENGTH_SHORT);
+                            Toast toast = Toast.makeText(NavigationMenu.this, "Search failure", Toast.LENGTH_SHORT);
                             toast.show();
                         }
                     }
@@ -161,6 +163,41 @@ public class NavigationMenu extends AppCompatActivity {
 
         lesMevesFotos.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Usuari u= new Usuari(username);
+                Call<ArrayList<searchAroundAnswer>> call = mTodoService.searchMyPhotos("Bearer "+token, u);
+                call.enqueue(new Callback<ArrayList<searchAroundAnswer>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<searchAroundAnswer>> call, Response<ArrayList<searchAroundAnswer>> response) {
+
+                        if (response.isSuccessful()) {
+                            if(response.body()==null || response.body().size()==0) {
+                                Toast toast = Toast.makeText(NavigationMenu.this, "No tens cap foto penjada", Toast.LENGTH_SHORT);
+                                toast.show();
+
+                            }
+                            else {
+                                Intent intent = new Intent(NavigationMenu.this, ShowImages.class);
+
+                                intent.putExtra("llistaFotos", response.body());
+                                startActivity(intent);
+                            }
+
+
+                        } else {
+                            Toast toast = Toast.makeText(NavigationMenu.this, "Search failure", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<searchAroundAnswer>> call, Throwable t) {
+                        Toast toast = Toast.makeText(NavigationMenu.this, "Error logging in", Toast.LENGTH_SHORT);
+                        toast.show();
+
+                    }
+                });
+
+
                 Toast toast = Toast.makeText(NavigationMenu.this, "Les meves fotos coming soon", Toast.LENGTH_SHORT);
                 toast.show();
 

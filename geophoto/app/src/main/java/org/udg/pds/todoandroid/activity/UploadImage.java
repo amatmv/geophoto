@@ -105,6 +105,9 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
         callUploadPhoto c = new callUploadPhoto();
         c.photo=str_image;
         c.title=name;
+        c.date=dataCreacioFinal;
+        c.latitude=latitudFinal;
+        c.longitude=longitudFinal;
 
         Call<User> call = mTodoService.uploadPhoto("Bearer "+token,c);
         ProgressDialog progress = ProgressDialog.show(this, null,

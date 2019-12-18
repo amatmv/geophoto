@@ -6,6 +6,7 @@ import org.udg.pds.todoandroid.entity.Task;
 import org.udg.pds.todoandroid.entity.User;
 import org.udg.pds.todoandroid.entity.UserLogin;
 import org.udg.pds.todoandroid.entity.UserRegister;
+import org.udg.pds.todoandroid.entity.Usuari;
 import org.udg.pds.todoandroid.entity.callUploadPhoto;
 import org.udg.pds.todoandroid.entity.longLat;
 import org.udg.pds.todoandroid.entity.searchAroundAnswer;
@@ -39,6 +40,9 @@ public interface TodoApi {
 
   @POST("geophoto_api/search_within/")
   Call<ArrayList<searchAroundAnswer>> searchWithin(@Header ("Authorization") String token, @Body searchWithinCall s);
+
+  @POST("geophoto_api/search_my_photos/")
+  Call<ArrayList<searchAroundAnswer>> searchMyPhotos(@Header ("Authorization") String token, @Body Usuari username);
 
   @GET("/users/check")
   Call<String> check();

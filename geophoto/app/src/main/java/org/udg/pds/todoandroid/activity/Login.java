@@ -102,6 +102,7 @@ public class Login extends AppCompatActivity {
                    // response.body().id;
                     Intent intent=new Intent(Login.this, NavigationMenu.class);
                     intent.putExtra("token",response.body().token);
+                    intent.putExtra("username",username);
                     startActivity(intent);
                     Login.this.finish();
 
