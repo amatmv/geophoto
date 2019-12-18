@@ -1,8 +1,15 @@
 package org.udg.pds.todoandroid.activity;
 import android.app.ProgressDialog;
+import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +36,7 @@ import org.udg.pds.todoandroid.entity.callUploadPhoto;
 import org.udg.pds.todoandroid.rest.TodoApi;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Map;
@@ -49,6 +57,8 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
     byte[] byteArray;
     private Bitmap bitmap;
     String str_image;
+    Float latitudFinal;
+    Float longitudFinal;
 
     private int PICK_IMAGE_REQUEST = 1;
 
@@ -65,10 +75,7 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
 
         Intent i = getIntent();
         token = (String) i.getSerializableExtra("token");
-
-        Toast toast = Toast.makeText(UploadImage.this, token, Toast.LENGTH_SHORT);
-        toast.show();
-
+        
 
         buttonChoose = (Button) findViewById(R.id.buttonChoose);
         buttonUpload = (Button) findViewById(R.id.buttonUpload);
@@ -141,13 +148,31 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
             Uri filePath = data.getData();
             try {
                 //Getting the Bitmap from Gallery
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-                 byteArray = byteArrayOutputStream.toByteArray();
-                  str_image= Base64.encodeToString(byteArray, Base64.DEFAULT);
-                //Setting the Bitmap to ImageView
-                imageView.setImageBitmap(bitmap);
+                File file=new File(filePath.getPath());
+                ExifInterface exifData= new ExifInterface(getPathFromURI(this,filePath));
+                String s= exifData.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
+                float[] f=new float[2];
+                f[0]=-99999;
+                f[1]=-99999;
+                exifData.getLatLong(f);
+                if(f[0]!= -99999 && f[1]!=-99999) {
+                    latitudFinal=f[0];
+                    longitudFinal=f[1];
+                    f[0]=-99999;
+                    f[1]=-99999;
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                    byteArrayOutputStream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                    byteArray = byteArrayOutputStream.toByteArray();
+                    str_image = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                    //Setting the Bitmap to ImageView
+                    imageView.setImageBitmap(bitmap);
+                }
+                else
+                {
+                    Toast toast = Toast.makeText(UploadImage.this, "Aquesta foto no té latitud ni longitud, no pot ser pujada", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -164,5 +189,99 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
         if(v == buttonUpload){
             uploadImage();
         }
+    }
+
+    public static String getPathFromURI(final Context context, final Uri uri) {
+
+        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+
+        // DocumentProvider
+        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+            // ExternalStorageProvider
+            if (isExternalStorageDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                if ("primary".equalsIgnoreCase(type)) {
+                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+                }
+            }
+            // DownloadsProvider
+            else if (isDownloadsDocument(uri)) {
+
+                final String id = DocumentsContract.getDocumentId(uri);
+                final Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+
+                return getDataColumn(context, contentUri, null, null);
+            }
+            // MediaProvider
+            else if (isMediaDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                Uri contentUri = null;
+                if ("image".equals(type)) {
+                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video".equals(type)) {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio".equals(type)) {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                }
+
+                final String selection = "_id=?";
+                final String[] selectionArgs = new String[] {
+                        split[1]
+                };
+
+                return getDataColumn(context, contentUri, selection, selectionArgs);
+            }
+        }
+        // MediaStore (and general)
+        else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            return getDataColumn(context, uri, null, null);
+        }
+        // File
+        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+
+        return null;
+    }
+
+    public static String getDataColumn(Context context, Uri uri, String selection,
+                                       String[] selectionArgs) {
+
+        Cursor cursor = null;
+        final String column = "_data";
+        final String[] projection = {
+                column
+        };
+
+        try {
+            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
+                    null);
+            if (cursor != null && cursor.moveToFirst()) {
+                final int column_index = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(column_index);
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
+
+    public static boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+    }
+
+    public static boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
+    public static boolean isMediaDocument(Uri uri) {
+        return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 }
