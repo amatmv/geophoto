@@ -40,6 +40,7 @@ public class NavigationMenu extends AppCompatActivity {
     int distance;
     double longitude;
     double latitude;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,12 +58,12 @@ public class NavigationMenu extends AppCompatActivity {
 
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if(location!=null) {
+        if (location != null) {
             longitude = location.getLongitude();
             latitude = location.getLatitude();
         }
 
-        distance=-1;
+        distance = -1;
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Introdueix la distància (metres) a la que vols buscar fotos");
 // Set up the input
@@ -71,28 +72,36 @@ public class NavigationMenu extends AppCompatActivity {
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
         builder.setView(input);
 
+
+        final AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+        builder2.setTitle("De quin usuari vols buscar fotos?");
+// Set up the input
+        final EditText input2 = new EditText(this);
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input2.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder2.setView(input2);
+
         // Set up the buttons
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                distance =  Integer.parseInt(input.getText().toString());
+                distance = Integer.parseInt(input.getText().toString());
 
                 longLat l = new longLat();
                 l.location_lat = latitude;
                 l.location_lon = longitude;
                 l.distance = distance;
-                Call<ArrayList<searchAroundAnswer>> call = mTodoService.searchAround("Bearer "+token, l);
+                Call<ArrayList<searchAroundAnswer>> call = mTodoService.searchAround("Bearer " + token, l);
                 call.enqueue(new Callback<ArrayList<searchAroundAnswer>>() {
                     @Override
                     public void onResponse(Call<ArrayList<searchAroundAnswer>> call, Response<ArrayList<searchAroundAnswer>> response) {
 
                         if (response.isSuccessful()) {
-                            if(response.body()==null || response.body().size()==0) {
-                                Toast toast = Toast.makeText(NavigationMenu.this, "No hi ha cap foto en un radi de " + distance +" metres", Toast.LENGTH_SHORT);
+                            if (response.body() == null || response.body().size() == 0) {
+                                Toast toast = Toast.makeText(NavigationMenu.this, "No hi ha cap foto en un radi de " + distance + " metres", Toast.LENGTH_SHORT);
                                 toast.show();
 
-                            }
-                            else {
+                            } else {
                                 Intent intent = new Intent(NavigationMenu.this, ShowImages.class);
 
                                 intent.putExtra("llistaFotos", response.body());
@@ -123,59 +132,22 @@ public class NavigationMenu extends AppCompatActivity {
         });
 
 
-        final AlertDialog alert=builder.create();
-        fotosProperes.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if(location!=null)
-                    alert.show();
-                else
-                {
-                    Toast toast = Toast.makeText(NavigationMenu.this, "No es reconeix la latitud i longitud on et trobes," +
-                            " aquesta opció queda deshablitada", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-            }
-        });
-
-
-
-
-        penjarFoto.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //NavigationMenu.this.startActivity(new Intent(NavigationMenu.this, UploadImage.class));
-
-                Intent intent = new Intent(NavigationMenu.this, UploadImage.class);
-                intent.putExtra("token", token);
-                startActivity(intent);
-
-
-            }
-        });
-
-        buscarPerTerritori.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent=new Intent(NavigationMenu.this, TerritoriesMenu.class);
-                intent.putExtra("token",token);
-                startActivity(intent);
-
-            }
-        });
-
-        lesMevesFotos.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Usuari u= new Usuari(username);
-                Call<ArrayList<searchAroundAnswer>> call = mTodoService.searchMyPhotos("Bearer "+token, u);
+        // Set up the buttons
+        builder2.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Usuari u = new Usuari(input2.getText().toString());
+                Call<ArrayList<searchAroundAnswer>> call = mTodoService.searchMyPhotos("Bearer " + token, u);
                 call.enqueue(new Callback<ArrayList<searchAroundAnswer>>() {
                     @Override
                     public void onResponse(Call<ArrayList<searchAroundAnswer>> call, Response<ArrayList<searchAroundAnswer>> response) {
 
                         if (response.isSuccessful()) {
-                            if(response.body()==null || response.body().size()==0) {
+                            if (response.body() == null || response.body().size() == 0) {
                                 Toast toast = Toast.makeText(NavigationMenu.this, "No tens cap foto penjada", Toast.LENGTH_SHORT);
                                 toast.show();
 
-                            }
-                            else {
+                            } else {
                                 Intent intent = new Intent(NavigationMenu.this, ShowImages.class);
 
                                 intent.putExtra("llistaFotos", response.body());
@@ -191,21 +163,70 @@ public class NavigationMenu extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<ArrayList<searchAroundAnswer>> call, Throwable t) {
-                        Toast toast = Toast.makeText(NavigationMenu.this, "Error logging in", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(NavigationMenu.this, "Error searching my photos", Toast.LENGTH_SHORT);
                         toast.show();
 
                     }
                 });
 
+            }});
+                builder2.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
 
-                Toast toast = Toast.makeText(NavigationMenu.this, "Les meves fotos coming soon", Toast.LENGTH_SHORT);
-                toast.show();
 
+
+                final AlertDialog alert = builder.create();
+                final AlertDialog alert2 = builder2.create();
+                fotosProperes.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        if (location != null)
+                            alert.show();
+                        else {
+                            Toast toast = Toast.makeText(NavigationMenu.this, "No es reconeix la latitud i longitud on et trobes," +
+                                    " aquesta opció queda deshablitada", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                    }
+                });
+
+
+                penjarFoto.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        //NavigationMenu.this.startActivity(new Intent(NavigationMenu.this, UploadImage.class));
+
+                        Intent intent = new Intent(NavigationMenu.this, UploadImage.class);
+                        intent.putExtra("token", token);
+                        startActivity(intent);
+
+
+                    }
+                });
+
+                buscarPerTerritori.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(NavigationMenu.this, TerritoriesMenu.class);
+                        intent.putExtra("token", token);
+                        startActivity(intent);
+
+                    }
+                });
+
+                lesMevesFotos.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        alert2.show();
+                    }
+                });
             }
-        });
-
 
     }
 
-}
+
+
+
+
+
 

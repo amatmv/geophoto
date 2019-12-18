@@ -85,8 +85,7 @@ public class TerritoriesMenu extends AppCompatActivity {
                     municipiPulsat=-1;
                 }
 
-                Toast toast = Toast.makeText(TerritoriesMenu.this, tipusTerritori, Toast.LENGTH_SHORT);
-                toast.show();
+         
 
                 searchWithinCall crida= new searchWithinCall();
                 crida.zone=territoriBuscat;
