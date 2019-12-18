@@ -85,7 +85,7 @@ public class TerritoriesMenu extends AppCompatActivity {
                     municipiPulsat=-1;
                 }
 
-         
+
 
                 searchWithinCall crida= new searchWithinCall();
                 crida.zone=territoriBuscat;
