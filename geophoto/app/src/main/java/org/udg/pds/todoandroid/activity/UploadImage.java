@@ -152,7 +152,8 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
                 File file=new File(filePath.getPath());
                 ExifInterface exifData= new ExifInterface(getPathFromURI(this,filePath));
                 String s= exifData.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
-
+                float[] f=new float[2];
+                exifData.getLatLong(f);
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 byteArrayOutputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
