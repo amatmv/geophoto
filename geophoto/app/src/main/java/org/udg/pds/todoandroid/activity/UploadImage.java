@@ -59,6 +59,7 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
     String str_image;
     Float latitudFinal;
     Float longitudFinal;
+    String dataCreacioFinal;
 
     private int PICK_IMAGE_REQUEST = 1;
 
@@ -150,14 +151,16 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
                 //Getting the Bitmap from Gallery
                 File file=new File(filePath.getPath());
                 ExifInterface exifData= new ExifInterface(getPathFromURI(this,filePath));
-                String s= exifData.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
+                String s= exifData.getAttribute(ExifInterface.TAG_DATETIME_ORIGINAL);
                 float[] f=new float[2];
                 f[0]=-99999;
                 f[1]=-99999;
                 exifData.getLatLong(f);
-                if(f[0]!= -99999 && f[1]!=-99999) {
+                if(f[0]!= -99999 && f[1]!=-99999 && s!=null) {
                     latitudFinal=f[0];
                     longitudFinal=f[1];
+                    dataCreacioFinal=s;
+                    s=null;
                     f[0]=-99999;
                     f[1]=-99999;
                     bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
@@ -167,6 +170,11 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
                     str_image = Base64.encodeToString(byteArray, Base64.DEFAULT);
                     //Setting the Bitmap to ImageView
                     imageView.setImageBitmap(bitmap);
+                }
+                else if (s==null)
+                {
+                    Toast toast = Toast.makeText(UploadImage.this, "Aquesta foto no té data de creació, no pot ser pujada", Toast.LENGTH_SHORT);
+                    toast.show();
                 }
                 else
                 {
