@@ -57,6 +57,8 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
     byte[] byteArray;
     private Bitmap bitmap;
     String str_image;
+    Float latitudFinal;
+    Float longitudFinal;
 
     private int PICK_IMAGE_REQUEST = 1;
 
@@ -73,10 +75,7 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
 
         Intent i = getIntent();
         token = (String) i.getSerializableExtra("token");
-
-        Toast toast = Toast.makeText(UploadImage.this, token, Toast.LENGTH_SHORT);
-        toast.show();
-
+        
 
         buttonChoose = (Button) findViewById(R.id.buttonChoose);
         buttonUpload = (Button) findViewById(R.id.buttonUpload);
@@ -153,14 +152,27 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
                 ExifInterface exifData= new ExifInterface(getPathFromURI(this,filePath));
                 String s= exifData.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
                 float[] f=new float[2];
+                f[0]=-99999;
+                f[1]=-99999;
                 exifData.getLatLong(f);
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-                 byteArray = byteArrayOutputStream.toByteArray();
-                  str_image= Base64.encodeToString(byteArray, Base64.DEFAULT);
-                //Setting the Bitmap to ImageView
-                imageView.setImageBitmap(bitmap);
+                if(f[0]!= -99999 && f[1]!=-99999) {
+                    latitudFinal=f[0];
+                    longitudFinal=f[1];
+                    f[0]=-99999;
+                    f[1]=-99999;
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                    byteArrayOutputStream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                    byteArray = byteArrayOutputStream.toByteArray();
+                    str_image = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                    //Setting the Bitmap to ImageView
+                    imageView.setImageBitmap(bitmap);
+                }
+                else
+                {
+                    Toast toast = Toast.makeText(UploadImage.this, "Aquesta foto no té latitud ni longitud, no pot ser pujada", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
