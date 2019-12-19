@@ -114,7 +114,7 @@ public class TerritoriesMenu extends AppCompatActivity {
 
 
                         } else {
-                            Toast toast = Toast.makeText(TerritoriesMenu.this, "search failure", Toast.LENGTH_SHORT);
+                            Toast toast = Toast.makeText(TerritoriesMenu.this, "Search failure", Toast.LENGTH_SHORT);
                             toast.show();
                         }
                     }

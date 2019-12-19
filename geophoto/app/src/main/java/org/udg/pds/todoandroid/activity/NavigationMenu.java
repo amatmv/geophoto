@@ -144,7 +144,7 @@ public class NavigationMenu extends AppCompatActivity {
 
                         if (response.isSuccessful()) {
                             if (response.body() == null || response.body().size() == 0) {
-                                Toast toast = Toast.makeText(NavigationMenu.this, "No tens cap foto penjada", Toast.LENGTH_SHORT);
+                                Toast toast = Toast.makeText(NavigationMenu.this, "L'usuari entrat no té cap foto penjada", Toast.LENGTH_SHORT);
                                 toast.show();
 
                             } else {
@@ -163,7 +163,7 @@ public class NavigationMenu extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<ArrayList<searchAroundAnswer>> call, Throwable t) {
-                        Toast toast = Toast.makeText(NavigationMenu.this, "Error searching my photos", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(NavigationMenu.this, "Error searching user photos", Toast.LENGTH_SHORT);
                         toast.show();
 
                     }

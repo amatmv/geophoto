@@ -60,6 +60,7 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
     Float latitudFinal;
     Float longitudFinal;
     String dataCreacioFinal;
+    ProgressDialog progress;
 
     private int PICK_IMAGE_REQUEST = 1;
 
@@ -99,42 +100,51 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
 
     private void uploadImage(){
 
-        String name = editTextName.getText().toString().trim();
-        String image = getStringImage(bitmap);
+        if(bitmap!=null) {
+            String name = editTextName.getText().toString().trim();
+            String image = getStringImage(bitmap);
 
-        callUploadPhoto c = new callUploadPhoto();
-        c.photo=str_image;
-        c.title=name;
-        c.date=dataCreacioFinal;
-        c.latitude=latitudFinal;
-        c.longitude=longitudFinal;
 
-        Call<User> call = mTodoService.uploadPhoto("Bearer "+token,c);
-        ProgressDialog progress = ProgressDialog.show(this, null,
-                "Uploading...", true);
 
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            callUploadPhoto c = new callUploadPhoto();
+            c.photo = str_image;
+            c.title = name;
+            c.date = dataCreacioFinal;
+            c.latitude = latitudFinal;
+            c.longitude = longitudFinal;
 
-                if (response.isSuccessful()) {
-                    progress.dismiss();
-                    UploadImage.this.finish();
-                } else {
-                    progress.dismiss();
-                    Toast toast = Toast.makeText(UploadImage.this, "Upload failure", Toast.LENGTH_SHORT);
-                    toast.show();
+            Call<User> call = mTodoService.uploadPhoto("Bearer " + token, c);
+
+            call.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+
+                    if (response.isSuccessful()) {
+                        progress.dismiss();
+                        UploadImage.this.finish();
+                    } else {
+                        progress.dismiss();
+                        Toast toast = Toast.makeText(UploadImage.this, "Upload failure", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
                 }
-            }
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                progress.dismiss();
-                Toast toast = Toast.makeText(UploadImage.this, "Connection error", Toast.LENGTH_SHORT);
-                toast.show();
 
-            }
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    progress.dismiss();
+                    Toast toast = Toast.makeText(UploadImage.this, "Connection error", Toast.LENGTH_SHORT);
+                    toast.show();
 
-        });
+                }
+
+            });
+        }
+        else
+        {
+            progress.dismiss();
+            Toast toast = Toast.makeText(UploadImage.this, "No has seleccionat cap foto", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     private void showFileChooser() {
@@ -198,6 +208,9 @@ public class UploadImage extends AppCompatActivity implements View.OnClickListen
         }
 
         if(v == buttonUpload){
+            progress = ProgressDialog.show(this, null,
+                    "Uploading...", true);
+
             uploadImage();
         }
     }
