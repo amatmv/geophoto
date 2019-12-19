@@ -44,7 +44,7 @@ public class ImageFullScreen extends AppCompatActivity {
         imatge=dadesCompletes.url;
         textView1=(TextView)findViewById(R.id.textView1);
         textView1.setText("Autor: "+dadesCompletes.user.username+"\nTítol: "+dadesCompletes.title+"\n"+dadesCompletes.created_at+
-                "\n"+dadesCompletes.comarca+", "+dadesCompletes.provincia+", "+dadesCompletes.municipi);
+                "\n"+dadesCompletes.municipi+", "+dadesCompletes.comarca+", "+dadesCompletes.provincia);
         //textView2=(TextView)findViewById(R.id.textView2);
         //textView2.setText("Títol: "+dadesCompletes.title);
 
